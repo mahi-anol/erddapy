@@ -271,3 +271,16 @@ def test_download_file_undefined_query(dataset_tabledap):
     dataset_tabledap.variables = dataset_tabledap.variables[::-1]
     fn_new = dataset_tabledap.download_file("nc")
     assert fn_new == fn
+
+
+@pytest.mark.web
+def test_download_file_parquet(dataset_tabledap):
+    """Test that download_file accepts the parquet response format.
+
+    Before parquet was added to download_formats, this raised
+    `ValueError: Requested filetype parquet not available on ERDDAP`
+    at the format-validation check in ERDDAP.download_file, even though
+    the underlying URL builder already supported parquet.
+    """
+    fn = dataset_tabledap.download_file("parquet")
+    assert str(fn).endswith(".parquet")

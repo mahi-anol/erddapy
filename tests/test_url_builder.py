@@ -289,3 +289,26 @@ def test_download_url_distinct(e):
 def test__clean_response():
     """Test if users can pass responses with or without the '.'."""
     assert _clean_response("html") == _clean_response(".html")
+
+
+def test_parquet_in_download_formats():
+    """parquet and parquetWMeta are supported by ERDDAP servers (since
+    v2.25) and must be in the download_formats allowlist so that
+    ERDDAP.download_file() accepts them.
+    """
+    from erddapy.core.url import download_formats
+
+    assert "parquet" in download_formats
+    assert "parquetWMeta" in download_formats
+
+
+def test_get_download_url_accepts_parquet():
+    """get_download_url should produce a URL for parquet without
+    raising, since it doesn't validate against download_formats."""
+    e = ERDDAP(
+        server="https://gliders.ioos.us/erddap/",
+        protocol="tabledap",
+    )
+    e.dataset_id = "allDatasets"   # always present
+    url = e.get_download_url(response="parquet")
+    assert url.endswith(".parquet?")

@@ -593,6 +593,8 @@ download_formats = [
     "xhtml",
     "kml",
     "smallPdf",
+    "parquet",
+    "parquetWMeta",
     "pdf",
     "largePdf",
     "smallPng",

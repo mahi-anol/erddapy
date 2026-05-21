@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add `parquet` and `parquetWMeta` to `download_formats` so
+  `ERDDAP.download_file("parquet")` no longer raises `ValueError` on
+  servers that support parquet responses (e.g. IOOS Glider DAC).
+
 ## v0.9.0
 
 - Support ERDDAP 2.10 search syntax (#155)
